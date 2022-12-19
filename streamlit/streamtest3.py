@@ -136,9 +136,10 @@ for info_countries_2, info_sectors_2, info_holdings_2 in zip(data_2["Countries"]
     ETF_sectors_2_weight[info_sectors_2["name"]] = info_sectors_2["percentage"]*100*percent_ETF_2
     ETF_holdings_2_weight[info_holdings_2["name"]] = info_holdings_2["percentage"]*100*percent_ETF_2
 
-
+#-------------------------------------------------------------------------------------------------------------------#
 
 # Überschrift erste Ländertabelle
+
 st.write("""
 ### Country distribution of your first ETF:
 """)
@@ -148,14 +149,10 @@ with st.expander("Click to expand the table" ):
 with st.expander("Click to expand the bar chart" ):
     st.bar_chart(data_1["Countries"], x="name", y= "percentage", width=1, height=0, use_container_width=True)
 
-#Pie Chart erstellen
-
-
-
-
-
+#-------------------------------------------------------------------------------------------------------------------#
 
 # Überschrift zweite Ländertabelle
+
 st.write("""
 ### Country distribution of your second ETF:
 """)
@@ -166,13 +163,15 @@ with st.expander("Click to expand bar chart" ):
     st.bar_chart(data_2["Countries"], x="name", y= "percentage", width=1, height=0, use_container_width=True)
 
 
+#-------------------------------------------------------------------------------------------------------------------#
 
+# Überschrift für das erstellte Portfolio
 
-# Überschrift zweite Ländertabelle
 st.write("""
 ### Distribution of your ETF Portfolio:
 """)
 
+#-------------------------------------------------------------------------------------------------------------------#
 
 
 # Neue Listen zusammenrechnen
@@ -236,22 +235,35 @@ for ETF_holdings in ETF_holdings_list:
             Depot_holdings_sum[holding] += ETF_holdings[holding]
 
 
+#-------------------------------------------------------------------------------------------------------------------#
 
 
-# Daten des Portfolios ausgeben (Ausgabe des dict in einer coolen Tabelle muss noch bearbeitet werden)
+# Daten des Portfolios ausgeben 
 
-# Verrechnete Liste (Depot Verteilung der Länder)   #st.table(Depot_countries_sum) #, headers=['Country', 'Percent'])
+
 st.write("""
 #### Countries:
 """)
+
+Depot_countries_df = pd.DataFrame.from_dict(Depot_countries_sum, orient='index')
+
 with st.expander("Click to expand" ):
-    st.write(Depot_countries_sum)
-
-
+    #st.write(Depot_countries_sum)
+    st.table(Depot_countries_df)
+    
+# Only show autopct labels for percentages greater than or equal to 1%
+def my_autopct(pct):
+    if pct >= 1:
+        return '%1.1f%%' % pct
+    else:
+        return ''
 
 # Create a pie chart of the Country Dict
 st.set_option('deprecation.showPyplotGlobalUse', False)
-plt.pie(Depot_countries_sum.values(), labels=Depot_countries_sum.keys())
+plt.pie(Depot_countries_sum.values(), labels= None , autopct=my_autopct, pctdistance=0.83, labeldistance=1.3, textprops={'color':'black'} , shadow=False, startangle=90)
+
+# Add a legend
+plt.legend(Depot_countries_sum.keys(), title="Countries" , prop={'size': 4})
 
 # Display the pie chart in the app
 with st.expander("Click to expand the pie chart" ):
@@ -264,12 +276,23 @@ with st.expander("Click to expand the pie chart" ):
 st.write("""
 #### Sectors:
 """)
+
+Depot_sectors_df = pd.DataFrame.from_dict(Depot_sectors_sum, orient='index')
+
 with st.expander("Click to expand" ):
-    st.write(Depot_sectors_sum)
+    #st.write(Depot_sectors_sum)
+    st.table(Depot_sectors_df)
+
+# Only show autopct labels for percentages greater than or equal to 1%
+def my_autopct(pct):
+    if pct >= 1:
+        return '%1.1f%%' % pct
+    else:
+        return ''
 
 # Create a pie chart of the Sectors Dict
 st.set_option('deprecation.showPyplotGlobalUse', False)
-plt.pie(Depot_sectors_sum.values(), labels=Depot_sectors_sum.keys())
+plt.pie(Depot_sectors_sum.values(), labels=Depot_sectors_sum.keys(), autopct=my_autopct)
 
 # Display the pie chart in the app
 with st.expander("Click to expand the pie chart" ):
@@ -282,8 +305,12 @@ with st.expander("Click to expand the pie chart" ):
 st.write("""
 #### Holdings:
 """)
+
+Depot_holdings_df = pd.DataFrame.from_dict(Depot_holdings_sum, orient='index')
+
 with st.expander("Click to expand" ):
-    st.write(Depot_holdings_sum)
+    #st.write(Depot_holdings_sum)
+    st.table(Depot_holdings_df)
     
 # Create a pie chart of the Sectors Dict
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -294,6 +321,8 @@ with st.expander("Click to expand the pie chart" ):
     st.pyplot()
 
 #---------------------------------------------------------------------------------------------------------------------#
+
+# Ab hier reiner Test um später eine Weltkarte zu erstellen ( macht aber Vicent noch besser :) )
 
 import pydeck as pdk
 
