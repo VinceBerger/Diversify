@@ -98,26 +98,21 @@ etfs = {
 'The most popular ETFs': 'LU1737652237',    
 'MSCI World': 'LU1737652237',
 'MSCI All Country World': 'IE00B6R52259',
-'FTSE All World': 'IE00B3RBWM25',
-'FTSE Developed': 'IE00BK5BQV03',
 'MSCI Emerging Markets': 'LU1737652583',
 'EURO STOXX 50': 'IE0008471009',
 'STOXX Europe 600': 'LU0328475792',
 'MSCI Europe': 'LU1242369327',
-'FTSE Developed Europe': 'IE00BK5BQX27',
 'DAX': 'LU2090062436',
 'MDAX': 'LU1033693638',
 'SDAX': 'LU0603942888',
 'TecDAX': 'DE000ETF9082',
 'S&P 500': 'IE000Z9SJA06',
 'Nasdaq 100': 'IE00BMFKG444',
-'Dow Jones Industrial Average': 'DE0006289390',
 'Russell 2000': 'IE00BJZ2DD79',
 'MSCI USA': 'IE00BG04M077',
 'Nikkei 225': 'LU0839027447',
 'MSCI Emerging Markets Asia': 'IE00B5L8K969',
-'MSCI China': 'LU0514695690',
-'MSCI India': 'IE00BZCQB185'
+'MSCI China': 'LU0514695690'
 
  }
 
@@ -158,7 +153,7 @@ if use_isin2:
     
 
 else:
-  isin2 = etfs[selected_etf]
+  isin2 = etfs[selected_etf2]
 
 # Display ISIN for selected ETF
 st.write(f'ISIN for your second ETF {selected_etf2}: {etfs[selected_etf2]}')
